@@ -89,7 +89,7 @@ intra_subnet_tags = {
 module "vpc_endpoints" {
   source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
 
-  vpc_id             = module.vpc.vpc_id
+  vpc_id             = [vpc-0fdf0096b5398f8a3]
   security_group_ids = [module.sg.security_group_id]
 
   endpoints = {
