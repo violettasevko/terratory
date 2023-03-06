@@ -17,7 +17,7 @@ provider "aws" {
     region = var.AWS_Region
 }
 
-module "vpc4" {
+module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
   name = "Vpc4-vio"
@@ -68,7 +68,7 @@ intra_subnet_tags = {
 
   name        = "web-sg-for-vpc4-vio"
   description = "web security group"
-  vpc_id      = "module.vpc4.vpc_id"
+  vpc_id      = "module.vpc.vpc_id"
 
   ingress_cidr_blocks      = ["10.40.0.0/16"]
   ingress_rules            = ["https-443-tcp"]
@@ -89,8 +89,8 @@ intra_subnet_tags = {
 module "vpc_endpoints" {
   source = "../../modules/vpc-endpoints"
 
-  vpc_id             = module.vpc4.vpc_id
-  security_group_ids = [module.sg.vpc4.id]
+  vpc_id             = module.vpc.vpc_id
+  security_group_ids = [module.sg.vpc.id]
 
   endpoints = {
     s3 = {
@@ -100,7 +100,7 @@ module "vpc_endpoints" {
     dynamodb = {
       service         = "dynamodb"
       service_type    = "Gateway"
-      route_table_ids = flatten([module.vpc4.intra_route_table_ids, module.vpc4.private_route_table_ids, module.vpc4.public_route_table_ids])
+      route_table_ids = flatten([module.vpc.intra_route_table_ids, module.vpc.private_route_table_ids, module.vpc.public_route_table_ids])
      # policy          = data.aws_iam_policy_document.dynamodb_endpoint_policy.json
       tags            = { Name = "dynamodb-vpc-endpoint" }
     },
