@@ -73,14 +73,14 @@ intra_subnet_tags = {
   ingress_cidr_blocks      = ["10.40.0.0/16"]
   ingress_rules            = ["https-443-tcp"]
   ingress_rules            = ["http-80-tcp"]
-  ingress_with_cidr_blocks = [
-    {
-      from_port   = 8080
-      to_port     = 8090
-      protocol    = "tcp"
-      description = "web"
-      cidr_blocks = "10.40.0.0/16"
-    },
+  # ingress_with_cidr_blocks = [
+  #  {
+  #    from_port   = 8080
+  #    to_port     = 8090
+  #    protocol    = "tcp"
+  #    description = "web"
+  #    cidr_blocks = "10.40.0.0/16"
+  #  },
     {
       rule        = "postgresql-tcp"
       cidr_blocks = "0.0.0.0/0"
