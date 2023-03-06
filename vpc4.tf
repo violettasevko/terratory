@@ -70,8 +70,8 @@ intra_subnet_tags = {
   description = "web security group"
   vpc_id      = module.vpc.vpc_id
 
-  ingress_cidr_blocks      = ["10.40.0.0/16", "0.0.0.0/0"]
-  ingress_rules            = ["https-443-tcp", "http-tcp-80"]
+  ingress_cidr_blocks      = ["10.40.0.0/16"]
+  ingress_rules            = ["https-443-tcp"]
   # ingress_with_cidr_blocks = [
   #  {
   #    from_port   = 8080
