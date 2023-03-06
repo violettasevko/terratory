@@ -72,7 +72,7 @@ intra_subnet_tags = {
 
   ingress_cidr_blocks      = ["10.40.0.0/16", "0.0.0.0/0"]
   ingress_rules            = ["https-443-tcp", "http-tcp-80"]
-  ingress_with_cidr_blocks = [
+  # ingress_with_cidr_blocks = [
   #  {
   #    from_port   = 8080
   #    to_port     = 8090
@@ -80,11 +80,11 @@ intra_subnet_tags = {
   #    description = "web"
   #    cidr_blocks = "10.40.0.0/16"
   #  },
-    {
-      rule        = "postgresql-tcp"
-      cidr_blocks = "0.0.0.0/0"
-    },
-  ]
+  #  {
+  #    rule        = "postgresql-tcp"
+  #    cidr_blocks = "0.0.0.0/0"
+  #  },
+  #]
 }
 module "vpc_endpoints" {
   source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
