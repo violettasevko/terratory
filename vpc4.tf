@@ -68,7 +68,7 @@ intra_subnet_tags = {
 
   name        = "web-sg-for-vpc4-vio"
   description = "web security group"
-  vpc_id      = "module.vpc.vpc_id"
+  vpc_id      = module.vpc.vpc_id
 
   ingress_cidr_blocks      = ["10.40.0.0/16"]
   ingress_rules            = ["https-443-tcp"]
