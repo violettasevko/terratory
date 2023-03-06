@@ -90,7 +90,7 @@ module "vpc_endpoints" {
   source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
 
   vpc_id             = module.vpc.vpc_id
-  security_group_ids = [module.sg.vpc.id]
+  security_group_ids = module.sg.id
 
   endpoints = {
     s3 = {
