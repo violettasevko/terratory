@@ -20,7 +20,7 @@ provider "aws" {
 module "vpc4" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "Vpc4"
+  name = "Vpc4-vio"
   cidr = "${var.vpc_prefix}.0.0/16"
 
   azs             = ["${var.AWS_Region}a", "${var.AWS_Region}b", "${var.AWS_Region}c"]
@@ -33,11 +33,15 @@ module "vpc4" {
   one_nat_gateway_per_az = false
 
   private_route_table_tags = {
-    Name = "Vpc4-private"
+    Name = "Vpc4-private-vio"
   }
 
   public_route_table_tags = {
-    Name = "Vpc4-Public"
+    Name = "Vpc4-Public-vio"
+  }
+  
+  intra_route_table_tags = {
+    Name = "Vpc4-intra-vio"
   }
   
   enable_ipv6 = true
@@ -48,22 +52,22 @@ module "vpc4" {
   intra_subnet_ipv6_prefixes = [49, 50, 51]
 
 public_subnet_tags = {
-  Name = "Vpc4 Public subnet"
+  Name = "Vpc4 Public subnet vio"
 }
 
 private_subnet_tags = {
-  Name = "Vpc4 private subnet"
+  Name = "Vpc4 private subnet vio"
 }
 
 intra_subnet_tags = {
-  Name = "Vpc4 intra subnet"
+  Name = "Vpc4 intra subnet vio"
 }
 }
   module "sg" {
   source = "terraform-aws-modules/security-group/aws"
 
-  name        = "user-service"
-  description = "Security group for user-service with custom ports open within VPC, and PostgreSQL publicly open"
+  name        = "web-sg-for-vpc4-vio"
+  description = "web security group"
   vpc_id      = "module.vpc4.vpc_id"
 
   ingress_cidr_blocks      = ["10.40.0.0/16"]
@@ -91,7 +95,14 @@ module "vpc_endpoints" {
   endpoints = {
     s3 = {
       service = "s3"
-      tags    = { Name = "s3-vpc-endpoint" }
-    }
+      tags    = { Name = "s3-vpc-endpoint-vio" }
+    },
+    dynamodb = {
+      service         = "dynamodb"
+      service_type    = "Gateway"
+      route_table_ids = flatten([module.vpc4.intra_route_table_ids, module.vpc4.private_route_table_ids, module.vpc4.public_route_table_ids])
+     # policy          = data.aws_iam_policy_document.dynamodb_endpoint_policy.json
+      tags            = { Name = "dynamodb-vpc-endpoint" }
+    },
   }
     }
